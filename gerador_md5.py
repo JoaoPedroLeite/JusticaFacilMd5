@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 def entrada_data():
 
     data = input('coloque a data desejada no formato dd/mm/aaaa: ')   #dd/mm/aaaa
-    data2 = data[6:10]+data[3:5]+data[0:2]                          #aaaammdd
+    data2 = data[6:10]+data[3:5]+data[0:2]                            #aaaammdd
     return data, data2
 
 
@@ -27,7 +27,6 @@ def montar_link(data, data2): #http://www.stf.jus.br/portal/diariojusticaeletron
         # print (valor[15].text)
     except:
         pass
-
     return url2
 
 
@@ -37,23 +36,12 @@ def gerar_md5(url):
     r = requests.get(url, headers=headers)
     for data in r.iter_content():
          m.update(data)
-    #return m.hexdigest()
     print(m.hexdigest())
 
 try:
-
     data, data2 = entrada_data()
-
     url2 = montar_link(data, data2)
-
     gerar_md5(url2)
 except:
-    print("Insira um valor valido")
+    print("Erro: Talvez você tenha colocado uma data que não possui diários ou inserido uma entrada no formato errado.")
 
-
-
-
-
-
-
-#print ("codigo md5:" ,gerar_md5("https://www3.tjma.jus.br/diario/diarios/2020/diario_31072020_121427_138.pdf"))
