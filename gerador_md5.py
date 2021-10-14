@@ -1,6 +1,5 @@
 import requests
 import hashlib
-import json
 from bs4 import BeautifulSoup
 
 def entrada_data():
@@ -19,16 +18,28 @@ def montar_link(data, data2):
     valor = soup.find_all('td')
     try:
         valor1 = (valor[0].text)
+        if len(valor1) == 2:
+            valor1 = ('0'+valor1)
+        elif len(valor1) == 1:
+            valor1 = ('00'+valor1)
         url1 = (f'https://www.stf.jus.br/arquivo/djEletronico/DJE_{data2}_{valor1}.pdf')
     except:
         pass
     try:
         valor2 = (valor[5].text)
+        if len(valor2) == 2:
+            valor2 = ('0'+valor2)
+        elif len(valor2) == 1:
+            valor2 = ('00'+valor2)
         url2 = (f'https://www.stf.jus.br/arquivo/djEletronico/DJE_{data2}_{valor2}.pdf')
     except:
         url2 = None
     try:
         valor3 = (valor[10].text)
+        if len(valor3) == 2:
+            valor3 = ('0'+valor3)
+        elif len(valor1) == 1:
+            valor3 = ('00'+valor3)
         url3 = (f'https://www.stf.jus.br/arquivo/djEletronico/DJE_{data2}_{valor3}.pdf')
     except:
         url3 = None
@@ -51,7 +62,7 @@ try:
     url1 = montar_link(data, data2)[0]
     gerar_md5(url1)
 except:
-    print("Erro: Talvez você tenha colocado uma data que não possui diários ou inserido uma entrada no formato errado.")
+    print("Erro: Talvez você tenha colocado uma data que não possui diário ou inserido uma entrada no formato errado.")
 try:
     url2 = montar_link(data, data2)[1]
     gerar_md5(url2)
@@ -62,20 +73,3 @@ try:
     gerar_md5(url3)
 except:
     pass
-
-
-
-
-
-
-
-
-# (ambiente2) joao@LanaDelRey:~$ /home/joao/ambiente2/bin/python /home/joao/scripts/JusticaFacilMd5/gerador_md5.py
-# coloque a data desejada no formato dd/mm/aaaa: 13/10/2021
-# Traceback (most recent call last):
-#   File "/home/joao/scripts/JusticaFacilMd5/gerador_md5.py", line 47, in <module>
-#     url1, url2 = montar_link(data, data2)
-#   File "/home/joao/scripts/JusticaFacilMd5/gerador_md5.py", line 34, in montar_link
-#     return url1, url2
-# UnboundLocalError: local variable 'url2' referenced before assignment
-
