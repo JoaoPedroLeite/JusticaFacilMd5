@@ -10,7 +10,7 @@ def entrada_data():
     return data, data2
 
 
-def montar_link(data, data2): #http://www.stf.jus.br/portal/diariojusticaeletronico/montarDiarioEletronico.asp?tp_pesquisa=0&dataD=14/09/2021
+def montar_link(data, data2):
     url = (f'http://www.stf.jus.br/portal/diariojusticaeletronico/montarDiarioEletronico.asp?tp_pesquisa=0&dataD={data}')
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.47'}
     response = requests.get(url, headers=headers)
@@ -18,16 +18,21 @@ def montar_link(data, data2): #http://www.stf.jus.br/portal/diariojusticaeletron
     soup = BeautifulSoup(content, 'html.parser')
     valor = soup.find_all('td')
     try:
-        #print (valor[0].text)
         valor1 = (valor[0].text)
-        url2 = (f'https://www.stf.jus.br/arquivo/djEletronico/DJE_{data2}_{valor1}.pdf') #https://www.stf.jus.br/arquivo/djEletronico/DJE_20211011_203.pdf
-        # print (valor[5].text)
-        # valor2 = (valor[5].text)
-        # print (valor[10].text)
-        # print (valor[15].text)
+        url1 = (f'https://www.stf.jus.br/arquivo/djEletronico/DJE_{data2}_{valor1}.pdf')
     except:
         pass
-    return url2
+    try:
+        valor2 = (valor[5].text)
+        url2 = (f'https://www.stf.jus.br/arquivo/djEletronico/DJE_{data2}_{valor2}.pdf')
+    except:
+        url2 = None
+    try:
+        valor3 = (valor[10].text)
+        url3 = (f'https://www.stf.jus.br/arquivo/djEletronico/DJE_{data2}_{valor3}.pdf')
+    except:
+        url3 = None
+    return url1, url2, url3
 
 
 def gerar_md5(url):
@@ -36,12 +41,41 @@ def gerar_md5(url):
     r = requests.get(url, headers=headers)
     for data in r.iter_content():
          m.update(data)
-    print(m.hexdigest())
+    print(f'{m.hexdigest()}')
+
+
+data, data2 = entrada_data()
+
 
 try:
-    data, data2 = entrada_data()
-    url2 = montar_link(data, data2)
-    gerar_md5(url2)
+    url1 = montar_link(data, data2)[0]
+    gerar_md5(url1)
 except:
     print("Erro: Talvez você tenha colocado uma data que não possui diários ou inserido uma entrada no formato errado.")
+try:
+    url2 = montar_link(data, data2)[1]
+    gerar_md5(url2)
+except:
+    pass
+try:
+    url3 = montar_link(data, data2)[2]
+    gerar_md5(url3)
+except:
+    pass
+
+
+
+
+
+
+
+
+# (ambiente2) joao@LanaDelRey:~$ /home/joao/ambiente2/bin/python /home/joao/scripts/JusticaFacilMd5/gerador_md5.py
+# coloque a data desejada no formato dd/mm/aaaa: 13/10/2021
+# Traceback (most recent call last):
+#   File "/home/joao/scripts/JusticaFacilMd5/gerador_md5.py", line 47, in <module>
+#     url1, url2 = montar_link(data, data2)
+#   File "/home/joao/scripts/JusticaFacilMd5/gerador_md5.py", line 34, in montar_link
+#     return url1, url2
+# UnboundLocalError: local variable 'url2' referenced before assignment
 
