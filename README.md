@@ -6,6 +6,8 @@ O objetivo do código é fazer uma consulta no site do Supremo Tribunal Federal 
 COMO USAR:
 
 -Uma vez executado, irá aparecer uma mensagem no seu terminal pedindo que vc entre com uma data no formato dd/mm/aaaa.
+
 -Caso tenha entrado com uma data válida, o programa irá resultar nos códigos MD5 dos diários referente ao dia.
+
 -Caso tenha entrado com uma data inválida, isso é, em um formato diferente do pedido ou a data de um dia que não possui diários, o programa retornará um erro.
 
