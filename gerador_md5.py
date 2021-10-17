@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 def entrada_data():
 
-    data = input('coloque a data desejada no formato dd/mm/aaaa: ')   #dd/mm/aaaa
+    data = input('Insira a data que deseja consultar diarios, no formato dd/mm/aaaa: ')   #dd/mm/aaaa
     data2 = data[6:10]+data[3:5]+data[0:2]                            #aaaammdd
     return data, data2
 
